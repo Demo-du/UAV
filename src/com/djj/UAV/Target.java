@@ -12,4 +12,8 @@ public class Target {
     	 this.y=y;
     	 this.node=node;
      }
+     public Target(int x,int y){
+    	 this.x=x;
+    	 this.y=y;
+     }
 }
