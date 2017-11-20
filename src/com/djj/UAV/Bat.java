@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bat implements Tsp_interface {
-    //public int []Xa;//=new int[8];
-   // public int []Xb;
+	public  double A=0.3;//响度
+	public  double r=0.4;//脉冲发射频率
+	public  int fmin=0;//脉冲频率最大值
+	public  int fmax=2;//脉冲频率最小值
+	public  int N_gen=1000;//迭代次数
+	public  int n=10;//种群数量
     public void find_best(int [][]Graph,List<List<Integer>> list,int num_target){
     	int[]Xa=new int[num_target];
     	int[]Xb=new int[num_target];
