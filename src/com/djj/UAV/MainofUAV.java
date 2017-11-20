@@ -1,5 +1,6 @@
 package com.djj.UAV;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainofUAV {
@@ -29,7 +30,24 @@ public class MainofUAV {
         int[][]Graph=util.TargettoGraph(targets);
         Investigation x=new Investigation();
         List<List<Integer>> list=x.get_Initial_porgarame(8, Graph);//list为初始化解
-        System.out.println(list);
+       // System.out.println(list);
+        Bat bat=new Bat();
+        List<Integer> l1=new ArrayList<Integer>();
+        List<Integer> l2=new ArrayList<Integer>();
+        List<Integer> l3=new ArrayList<Integer>();
+        l1.add(7);
+        l1.add(4);
+        l1.add(1);
+        l2.add(3);
+        l2.add(2);
+        l2.add(6);
+        l3.add(5);
+        List<List<Integer>> abc=new ArrayList<List<Integer>>();
+        abc.add(l1);
+        abc.add(l2);
+        abc.add(l3);
+        bat.find_best(Graph, abc, 7);
+        //bat.Getcode(Xa, Xb, num_Uav)
 	}
 
 }
