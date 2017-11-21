@@ -46,7 +46,8 @@ public class MainofUAV {
         abc.add(l1);
         abc.add(l2);
         abc.add(l3);
-        bat.find_best(Graph, list, 12);
+        bat.find_best(Graph, list, 12,3);
+        System.out.println(bat.Fun(list, Graph)+"测试");
         //bat.Getcode(Xa, Xb, num_Uav)
 	}
 
