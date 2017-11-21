@@ -5,6 +5,7 @@ import java.util.Random;
 /*
  * 蝙蝠个体建模
  */
+
 public class Bat_per {
 	public  double A=0.3;//响度
 	public  double r=0.4;//脉冲发射频率
