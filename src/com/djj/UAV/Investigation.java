@@ -7,13 +7,13 @@ public class Investigation {
 	/*
 	 * 初始化UAV的解:基于贪心策略
 	 */
-     public List<List<Integer>> get_Initial_porgarame(int limit_dis,int [][]Graph){
+     public List<List<Integer>> get_Initial_porgarame(int limit_dis,double [][]Graph){
     	 int row=Graph.length;//行数
     	 int col=Graph[0].length;//列数
     	 List<Integer> Per_Uav=new ArrayList<Integer>();
     	 List<List<Integer>> Total_Uav=new ArrayList<List<Integer>>();
     	 boolean[]chosen=new boolean[row];
-    	 int min=Integer.MAX_VALUE;
+    	 double min=Double.MAX_VALUE;
     	 int min_index=0;
     	 //找出太远不可能侦查的点
     	 for(int i=1;i<row;i++){
@@ -48,7 +48,7 @@ public class Investigation {
         			 Per_Uav=new ArrayList<Integer>();//新增一架飞机
         			 dis=0;
         			 node=0;
-        			 min=Integer.MAX_VALUE;
+        			 min=Double.MAX_VALUE;
     			 }
     		 }else{//超过航程，完成一架UAV初始化
     			// System.out.println("ss");
@@ -57,7 +57,7 @@ public class Investigation {
     			 Per_Uav=new ArrayList<Integer>();//新增一架飞机
     			 dis=0;
     			 node=0;
-    			 min=Integer.MAX_VALUE;
+    			 min=Double.MAX_VALUE;
     		 }
     	 }
     	 return Total_Uav;

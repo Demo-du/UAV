@@ -27,12 +27,12 @@ public class MainofUAV {
         targets[12]=new Target(5,1);
         Util util=new Util();
        // System.out.println(util.dis_target(targets[0], targets[0]));
-        int[][]Graph=util.TargettoGraph(targets);
+        double[][]Graph=util.TargettoGraph(targets);
         Investigation x=new Investigation();
-        List<List<Integer>> list=x.get_Initial_porgarame(8, Graph);//list为初始化解
-       // System.out.println(list);
+        List<List<Integer>> list=x.get_Initial_porgarame(200, Graph);//list为初始化解
+        System.out.println(list);
         Bat bat=new Bat();
-        List<Integer> l1=new ArrayList<Integer>();
+       /* List<Integer> l1=new ArrayList<Integer>();
         List<Integer> l2=new ArrayList<Integer>();
         List<Integer> l3=new ArrayList<Integer>();
         l1.add(7);
@@ -45,9 +45,11 @@ public class MainofUAV {
         List<List<Integer>> abc=new ArrayList<List<Integer>>();
         abc.add(l1);
         abc.add(l2);
-        abc.add(l3);
+        abc.add(l3);*/
+        System.out.println("初始解"+bat.Fun(list, Graph));
         bat.find_best(Graph, list, 12,3);
-        System.out.println(bat.Fun(list, Graph)+"测试");
+        System.out.println("初始解"+list+bat.Fun(list, Graph));
+        //System.out.println(bat.Fun(list, Graph)+"测试");
         //bat.Getcode(Xa, Xb, num_Uav)
 	}
 

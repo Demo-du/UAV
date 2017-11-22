@@ -5,18 +5,20 @@ import java.util.List;
 import java.util.Random;
 
 public class Bat implements Tsp_interface {
-	public  double A=0.3;//响度
-	public  double r=0.4;//脉冲发射频率
+	public  double A=100;//响度
+	public  double r=0.0;//脉冲发射频率
 	public  double fmin=0;//脉冲频率最小值
-	public  double fmax=7;//脉冲频率最大值，根据实际需求选
+	public  double fmax=12;//脉冲频率最大值，根据实际需求选
 	public  int N_gen=1000;//迭代次数
 	public  int n=10;//种群数量
 	public  double bestvalue=Double.MAX_VALUE;
 	public int[] X;//最优解
-    public void find_best(int [][]Graph,List<List<Integer>> list,int num_target,int num_Uav){
+	List<List<Integer>> res_best=new ArrayList<List<Integer>>();
+    public void find_best(double [][]Graph,List<List<Integer>> list,int num_target,int num_Uav){
     	int[]Xa=new int[num_target];
     	int[]Xb=new int[num_target];
     	Setcode(Xa,Xb,list);
+    	res_best=Getcode2(Xa,Xb,num_Uav);//最优方案初始化
     	bestvalue=Fun(Getcode2(Xa,Xb,num_Uav),Graph);//初始化最短路径
     	X=new int[num_target];
     	Bat_per []bat=new Bat_per[n];
@@ -29,16 +31,20 @@ public class Bat implements Tsp_interface {
     	for(int i=0;i<N_gen;i++){
     		for(int j=0;j<n;j++){
     			update(bat[j],num_target,Graph,num_Uav);
+    			//System.out.println("接受"+res_best);
+    			System.out.println("第"+i+"代"+"第"+j+"只"+bestvalue);
+    			System.out.println("路径"+res_best);
     		}
+    		
     	}
-    	System.out.println(Getcode(Xa,Xb,list.size()));
+    	//System.out.println(Getcode(Xa,X,list.size()));
     	System.out.println(Getcode2(Xa,Xb,list.size()));
     }
     
     /*
      * update
      */
-    public void update(Bat_per bat,int num_target,int [][]Graph,int num_Uav){
+    public void update(Bat_per bat,int num_target,double [][]Graph,int num_Uav){
     	Random rand=new Random();
     	bat.f=fmin+(fmax-fmin)*(rand.nextInt(100)/100.0);//更新fi
     	for(int i=0;i<num_target;i++){//更新Vi
@@ -56,7 +62,7 @@ public class Bat implements Tsp_interface {
     	
     	if(rand.nextDouble()>r){//随机扰动的条件
     		for(int i=0;i<num_target;i++){//产生Xnew
-        		Xnew[i]=(int)Get_Xnew(bat.Xb[i],3);//At可以修改
+        		Xnew[i]=(int)Get_Xnew(bat.Xb[i],1);//At可以修改
         		if(Xnew[i]<0){//越界处理
         			Xnew[i]=(Xnew[i]+2*num_target)%num_target;
         		}else{
@@ -64,16 +70,23 @@ public class Bat implements Tsp_interface {
         		}
         	}
 		}
-    	double dis=Fun(Getcode2(bat.Xa,bat.Xb,num_Uav),Graph);
-    	if(dis<23){
+    	double dis=Fun(Getcode2(bat.Xa,Xnew,num_Uav),Graph);
+    	/*System.out.println("新路径长度"+dis);
+		System.out.println("新路径");
+		System.out.println(Getcode2(bat.Xa,Xnew,num_Uav));*/
+    	/*if(dis<23){
     		System.out.println("新路径长度"+dis);
-    	}
+    		System.out.println("新路径");
+    		System.out.println(Getcode2(bat.Xa,bat.Xb,num_Uav));
+    	}*/
+    	
     	if(rand.nextDouble()<A&&dis<bestvalue){//接受新解
     		for(int i=0;i<num_target;i++){//更新Vi
         		X[i]=Xnew[i];
         	}
     		bestvalue=dis;
-    		System.out.println("接受"+bestvalue);
+    		res_best=Getcode2(bat.Xa,X,num_Uav);
+    		
     	}
     }
     /*
@@ -91,6 +104,7 @@ public class Bat implements Tsp_interface {
     		}
     		num_uav++;
     	}
+    	
     }
     
     /*
@@ -144,7 +158,8 @@ public class Bat implements Tsp_interface {
     		route[index-1].add(x_index+1);
     	}
     	for(List a:route){
-    		list.add(a);
+    		if(a.size()!=0)
+    		  list.add(a);
     	}
     	return list;
     }
@@ -196,7 +211,7 @@ public class Bat implements Tsp_interface {
 	 * 目标函数
 	 */
 	
-	public double Fun(List<List<Integer>> list,int [][]Graph){
+	public double Fun(List<List<Integer>> list,double [][]Graph){
 		double dis_total=0;
 		for(List<Integer> route:list){
 			dis_total+=calroute(route,Graph);
@@ -207,7 +222,7 @@ public class Bat implements Tsp_interface {
 	/*
 	 * 求每条路径长度
 	 */
-	public double calroute(List<Integer> route,int [][]Graph){
+	public double calroute(List<Integer> route,double [][]Graph){
 		int index=0;
 		double dis=0;
 		for(int n:route){
